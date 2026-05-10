@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* replaceValueInTree(TreeNode* root) {
+        queue<pair<int, TreeNode*>> q;
+        q.push({root->val, root});
+
+        while(!q.empty()) {
+            int n = q.size();
+            int levelSum = 0;
+
+            queue<pair<int, TreeNode*>> temp = q;
+
+    
+            while(!temp.empty()) {
+                levelSum += temp.front().second->val;
+                temp.pop();
+            }
+
+            for(int i = 0; i < n; i++) {
+                auto front = q.front();
+                q.pop();
+
+                int localSum = front.first;
+                TreeNode* node = front.second;
+
+                int childSum = 0;
+                if(node->left) childSum += node->left->val;
+                if(node->right) childSum += node->right->val;
+
+                if(node->left) q.push({childSum, node->left});
+                if(node->right) q.push({childSum, node->right});
+
+                node->val = levelSum - localSum;
+            }
+        }
+
+        return root;
+    }
+};
