@@ -1,0 +1,28 @@
+void printsub(int ind,vector<int>&arr,vector<int>&vec,vector<vector<int>>&ans,int n)
+{
+    if(ind==n)
+    {
+        
+        if(vec.size()==0) 
+        {
+            ans.push_back(vec);
+        }
+        else 
+        {
+         ans.push_back(vec);
+        }
+        return;
+    }
+    vec.push_back(arr[ind]);
+    printsub(ind+1,arr,vec,ans,n);
+    vec.pop_back();
+    printsub(ind+1,arr,vec,ans,n);
+}
+    vector<vector<int>> subsets(vector<int>& arr) {
+        vector<vector<int>>ans;
+        vector<int>vec;
+        int n=arr.size();
+        printsub(0,arr,vec,ans,n);
+        return ans;
+    }
+};
